@@ -2,9 +2,6 @@ package com.back.projectmanagermultitenantback.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.sql.Timestamp;
 
 @Getter
 @Setter

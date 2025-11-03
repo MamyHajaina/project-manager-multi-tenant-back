@@ -1,0 +1,10 @@
+.git
+.gitignore
+.gradle
+build
+out
+*.iml
+*.ipr
+*.iws
+.idea
+**/.DS_Store
