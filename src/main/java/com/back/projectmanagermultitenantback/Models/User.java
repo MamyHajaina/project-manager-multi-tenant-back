@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +36,6 @@ public class User {
     private Timestamp createdAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(name = "user_role", nullable = false, length = 20)
     private UserRole role;
 }
