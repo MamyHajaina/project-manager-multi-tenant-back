@@ -1,4 +1,3 @@
-// com.back.multitenantback.config.JwtAuthFilter
 package com.back.projectmanagermultitenantback.config;
 
 import com.back.projectmanagermultitenantback.Services.JwtService;

@@ -1,4 +1,3 @@
-// com.back.multitenantback.config.SecurityConfig
 package com.back.projectmanagermultitenantback.config;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -76,9 +75,7 @@ public class SecurityConfig {
         // Origines autorisées : ton poste Linux + localhost
         cfg.setAllowedOriginPatterns(List.of(
                 "http://192.168.88.21:4200",
-                "http://localhost:4200",
-                "https://project-manager-multi-tenant-back.onrender.com",
-                "https://project-manager-mutli-tenant-front.onrender.com"
+                "http://localhost:4200"
         ));
         // Méthodes autorisées
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));

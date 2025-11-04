@@ -1,4 +1,3 @@
-// src/main/java/com/back/multitenantback/config/DataInitializer.java
 package com.back.projectmanagermultitenantback.config;
 
 import com.back.projectmanagermultitenantback.Models.Organization;
