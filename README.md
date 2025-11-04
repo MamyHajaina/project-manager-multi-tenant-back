@@ -41,3 +41,6 @@ Login : /auth/login
 Register : /auth/register
 
 Chaque requête protégée doit contenir :
+
+
+Demo link Swager: https://project-manager-multi-tenant-back.onrender.com/swagger-ui/index.html
