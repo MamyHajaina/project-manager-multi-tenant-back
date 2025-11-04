@@ -67,33 +67,12 @@ public class DataInitializer {
                     new U("Ivy", "Admin", "ivy.admin@initech.com", UserRole.ADMIN, null),
                     new U("Quinn", "Admin", "quinn.admin@umbrella.com", UserRole.ADMIN, null),
 
-                    // ACME
+                    // Client
                     new U("Alice", "Client", "alice.client@acme.com", UserRole.CLIENT, "acme"),
-                    new U("Bob", "Member", "bob.member@acme.com", UserRole.MEMBER, "acme"),
-                    new U("Carol", "PM", "carol.pm@acme.com", UserRole.PROJECT_MANAGER, "acme"),
-                    new U("Dave", "Member", "dave.member@acme.com", UserRole.MEMBER, "acme"),
-                    new U("Eve", "Client", "eve.client@acme.com", UserRole.CLIENT, "acme"),
-
-                    // Globex
-                    new U("Grace", "PM", "grace.pm@globex.com", UserRole.PROJECT_MANAGER, "globex"),
-                    new U("Ivan", "Client", "ivan.client@globex.com", UserRole.CLIENT, "globex"),
-                    new U("Judy", "Member", "judy.member@globex.com", UserRole.MEMBER, "globex"),
-                    new U("Ken", "Member", "ken.member@globex.com", UserRole.MEMBER, "globex"),
-                    new U("Liam", "Client", "liam.client@globex.com", UserRole.CLIENT, "globex"),
-
-                    // Initech
-                    new U("Nina", "PM", "nina.pm@initech.com", UserRole.PROJECT_MANAGER, "initech"),
-                    new U("Oscar", "Member", "oscar.member@initech.com", UserRole.MEMBER, "initech"),
-                    new U("Peggy", "Member", "peggy.member@initech.com", UserRole.MEMBER, "initech"),
-                    new U("Rita", "Client", "rita.client@initech.com", UserRole.CLIENT, "initech"),
-                    new U("Sam", "Client", "sam.client@initech.com", UserRole.CLIENT, "initech"),
-
-                    // Umbrella
-                    new U("Sybil", "PM", "sybil.pm@umbrella.com", UserRole.PROJECT_MANAGER, "umbrella"),
-                    new U("Trent", "Member", "trent.member@umbrella.com", UserRole.MEMBER, "umbrella"),
-                    new U("Uma", "Member", "uma.member@umbrella.com", UserRole.MEMBER, "umbrella"),
-                    new U("Ruth", "Client", "ruth.client@umbrella.com", UserRole.CLIENT, "umbrella"),
-                    new U("Yara", "Client", "yara.client@umbrella.com", UserRole.CLIENT, "umbrella")
+                    new U("Bob", "Client", "bob.client@acme.com", UserRole.CLIENT, "acme"),
+                    new U("Carol", "Client", "carol.client@acme.com", UserRole.CLIENT, "acme"),
+                    new U("Dave", "Client", "dave.client@acme.com", UserRole.CLIENT, "acme"),
+                    new U("Eve", "Client", "eve.client@acme.com", UserRole.CLIENT, "acme")
             ).toList();
 
             // 3) Insert users + memberships (idempotent)

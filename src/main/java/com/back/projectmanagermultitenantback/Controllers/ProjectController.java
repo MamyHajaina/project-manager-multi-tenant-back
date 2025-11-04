@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/project/")
@@ -53,6 +54,21 @@ public class ProjectController {
         try {
             ReponseHttp rep = new ReponseHttp();
             rep.setMessages(EnumMessages.SELECT_SUCCESS.getMessage());
+
+            Long orgId = project.getOrganizationID();
+            String desc = project.getDescription();
+
+            if (Objects.equals(orgId, 1L)) {
+                project.setDescription("");
+            } else if (Objects.equals(orgId, 2L)) {
+                project.setDescription("~~~" + desc + "~~~~~");
+            } else if (Objects.equals(orgId, 3L)) {
+                project.setDescription("+++++" + desc + "++++");
+            } else if (Objects.equals(orgId, 4L)) {
+                project.setDescription(desc + "----");
+            } else if (Objects.equals(orgId, 5L)) {
+                project.setDescription("%%%" + desc + "%%%");
+            }
 
             ProjectMembership projectMembership = new ProjectMembership();
             Project projectCreat = this.projectService.create(projectMapper.toDTO(project));

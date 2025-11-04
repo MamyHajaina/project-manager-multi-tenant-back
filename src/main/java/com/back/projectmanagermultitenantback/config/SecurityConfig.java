@@ -30,27 +30,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1) CORS AVANT tout
                 .cors(Customizer.withDefaults())
-                // 2) API → stateless & pas de CSRF (tokens JWT)
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 3) Règles d'accès
                 .authorizeHttpRequests(auth -> auth
-                        // preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Swagger/OpenAPI public (ajuste selon tes chemins)
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/swagger-ui/index.html"
                         ).permitAll()
-                        // endpoints publics (login/register si tu en as)
                         .requestMatchers("/auth/**").permitAll()
-                        // le reste nécessite d'être authentifié
                         .anyRequest().authenticated()
                 )
-                // 4) Exceptions propres (401 JSON au lieu de redirection)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((req, res, e) -> {
                             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -58,9 +51,11 @@ public class SecurityConfig {
                             res.getWriter().write("{\"error\":\"Unauthorized\"}");
                         })
                 )
-                // 5) Headers de sécu par défaut OK (X-Frame-Options, etc.)
-                .headers(h -> h.defaultsDisabled().frameOptions(frame -> frame.deny()).xssProtection(Customizer.withDefaults()))
-                // 6) Ton filtre JWT AVANT UsernamePasswordAuthFilter
+                .headers(h -> h
+                        .defaultsDisabled()
+                        .frameOptions(frame -> frame.deny())
+                        .xssProtection(Customizer.withDefaults())
+                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -69,35 +64,42 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        // Si tu dois envoyer des cookies HttpOnly, mets true et évite '*'
-        cfg.setAllowCredentials(false); // pour Bearer token, false suffit
 
-        // Origines autorisées : ton poste Linux + localhost
-        cfg.setAllowedOriginPatterns(List.of(
-                "http://192.168.88.21:4200",
-                "http://localhost:4200",
-                "https://project-manager-multi-tenant-back.onrender.com",
+        // ⚠️ Mets true si tu utilises des cookies HttpOnly pour le JWT.
+        // Si tu es 100% en Bearer token dans le header Authorization, false suffit.
+        cfg.setAllowCredentials(false);
+
+        // Origins EXACTS (schéma + host + port si ≠ 80/443)
+        cfg.setAllowedOrigins(List.of(
+                "http://108.181.195.232",                      // Swagger via Nginx HTTP
+                "https://108.181.195.232",                     // si tu passes en HTTPS
+                "http://localhost:4200",                       // dev local
+                "http://192.168.88.21:4200",                   // ton poste Linux
                 "https://project-manager-mutli-tenant-front.onrender.com"
         ));
-        // Méthodes autorisées
+
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        // Headers entrants autorisés
+
+        // 👉 Ajoute ici tous les headers que tu envoies depuis le front/Swagger
         cfg.setAllowedHeaders(List.of(
                 "Authorization",
                 "Content-Type",
                 "X-Requested-With",
                 "Accept",
-                "Origin"
+                "Origin",
+                "X-Tenant-Id"   // <- important si tu l’utilises pour le multi-tenant
         ));
-        // Headers exposés côté navigateur (facultatif)
+
+        // Headers visibles côté navigateur (optionnel)
         cfg.setExposedHeaders(List.of(
                 "Authorization",
-                "Cache-Control",
-                "Content-Type"
+                "Content-Type",
+                "Set-Cookie"    // utile si allowCredentials=true
         ));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cfg);
         return source;
     }
+
 }
